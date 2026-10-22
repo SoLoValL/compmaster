@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CompMaster — ремонт компьютеров и ноутбуков{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-primary text-white py-5">
+    <!-- Particles -->
+    <div class="particles" id="hero-particles"></div>
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                <span class="badge bg-success mb-3 pulse">
+                    <i class="bi bi-check-circle-fill"></i> Работаем без выходных
+                </span>
+                <h1 class="display-4 fw-bold mb-3">Вернём вашей технике быструю работу</h1>
+                <p class="lead mb-4">Диагностируем, объясним причину и согласуем стоимость до начала ремонта. Компьютеры, ноутбуки и другая техника.</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="#contact" class="btn btn-success btn-lg">
+                        <i class="bi bi-envelope"></i> Оставить заявку
+                    </a>
+                    <a href="#services" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-list-ul"></i> Посмотреть услуги
+                    </a>
+                </div>
+                <div class="mt-4">
+                    <small class="text-white-50">
+                        <i class="bi bi-shield-check"></i> Стоимость согласуем заранее
+                    </small>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center d-none d-lg-block" data-aos="fade-left" data-aos-duration="1000">
+                <i class="bi bi-pc-display-horizontal" style="font-size: 20rem; opacity: 0.2;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Strip -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="0">
+                <div class="display-6 text-primary mb-1">01</div>
+                <small class="text-muted">Сначала диагностика и понятный план</small>
+            </div>
+            <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="100">
+                <div class="display-6 text-primary mb-1">02</div>
+                <small class="text-muted">Согласуем цену до начала работ</small>
+            </div>
+            <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="200">
+                <div class="display-6 text-primary mb-1">03</div>
+                <small class="text-muted">Бережно относимся к вашим данным</small>
+            </div>
+            <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="300">
+                <div class="display-6 text-primary mb-1">04</div>
+                <small class="text-muted">Можно вызвать мастера на дом</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="badge bg-primary mb-2">Что мы делаем</span>
+            <h2 class="display-6 fw-bold">Решаем проблемы, а не создаём новые</h2>
+            <p class="text-muted mx-auto" style="max-width: 600px;">От настройки системы до сложного ремонта. Подскажем подходящий вариант и заранее обсудим сроки.</p>
+        </div>
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="0">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-light text-dark">{{ forloop.counter|add:"0"|stringformat:"02d" }}</span>
+                            <i class="bi bi-tools text-primary fs-4"></i>
+                        </div>
+                        <h5 class="card-title">{{ service.name }}</h5>
+                        <p class="card-text text-muted small">{{ service.description|truncatewords:20|default:"Диагностика и ремонт с предварительным согласованием работ." }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <small class="text-muted">От</small>
+                            <strong class="text-primary">{{ service.price_from|default:"0" }} ₽</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> Список услуг скоро появится. Оставьте заявку — мы подскажем, чем помочь.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a href="{% url 'services' %}" class="btn btn-outline-primary">
+                Все услуги <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Calculator Section -->
+<section id="calculator" class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <span class="badge bg-success mb-2">Прозрачная стоимость</span>
+                <h2 class="display-6 fw-bold">Прикиньте цену до обращения</h2>
+                <p class="text-muted">Выберите работу и дополнительные опции — калькулятор покажет ориентировочную сумму. Точную цену мастер назовёт после диагностики.</p>
+                <div class="alert alert-warning small">
+                    <i class="bi bi-info-circle"></i> Никаких скрытых работ: сначала согласование, потом ремонт.
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4">
+                        <label for="calculator-category" class="form-label fw-bold">Что нужно сделать?</label>
+                        <select id="calculator-category" class="form-select mb-3">
+                            <option value="">Выберите категорию</option>
+                            {% for category in calculator_categories %}
+                            <option value="{{ category.pk }}" data-price="{{ category.base_price|default:0 }}">{{ category.name }} (от {{ category.base_price|default:"0" }} ₽)</option>
+                            {% empty %}
+                            <option value="">Позвоните нам для расчёта</option>
+                            {% endfor %}
+                        </select>
+                        <fieldset class="mb-3">
+                            <legend class="col-form-label fw-bold">Дополнительно</legend>
+                            <div id="calculator-options" class="mt-2">
+                                <p class="text-muted small">Выберите категорию для отображения опций</p>
+                            </div>
+                        </fieldset>
+                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
+                            <span class="fw-bold">Предварительная стоимость</span>
+                            <strong id="calculator-total" class="fs-4 text-primary">—</strong>
+                        </div>
+                        <a href="#contact" class="btn btn-primary w-100 mt-3">
+                            Обсудить ремонт <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Section -->
+{% if portfolio %}
+<section id="portfolio" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="badge bg-primary mb-2">Опыт в деталях</span>
+            <h2 class="display-6 fw-bold">Недавние работы</h2>
+        </div>
+        <div class="row g-4">
+            {% for work in portfolio %}
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="150">
+                <div class="card h-100 border-0 shadow-sm">
+                    {% if work.image_after %}
+                    <img src="{{ work.image_after }}" class="card-img-top" alt="{{ work.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ work.title }}</h5>
+                        <p class="card-text text-muted small">{{ work.description|truncatewords:15|default:"Выполнили диагностику и восстановили стабильную работу устройства." }}</p>
+                        {% if work.device_type %}
+                        <span class="badge bg-secondary">{{ work.device_type.name }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'portfolio' %}" class="btn btn-outline-primary">
+                Все работы <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Contact Form Section -->
+<section id="contact" class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right">
+                <span class="badge bg-success mb-2">Мы на связи</span>
+                <h2 class="display-6 fw-bold">Расскажите, что случилось</h2>
+                <p class="text-muted">Оставьте контакты — уточним детали и подскажем, с чего начать.</p>
+                
+                <div class="mt-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-telephone-fill text-primary fs-4 me-3"></i>
+                        <div>
+                            <small class="text-muted">Позвонить</small>
+                            <div><a href="tel:+79001234567" class="text-decoration-none fw-bold">+7 (900) 123-45-67</a></div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-envelope-fill text-primary fs-4 me-3"></i>
+                        <div>
+                            <small class="text-muted">Написать</small>
+                            <div><a href="mailto:info@compmaster.local" class="text-decoration-none fw-bold">info@compmaster.local</a></div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-geo-alt-fill text-primary fs-4 me-3"></i>
+                        <div>
+                            <small class="text-muted">Адрес</small>
+                            <div class="fw-bold">г. Москва, ул. Примерная, д. 1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7" data-aos="fade-left">
+                {% if request_sent %}
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5 text-center">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+                        <h3 class="mt-3">Заявка отправлена!</h3>
+                        <p class="text-muted">Спасибо! Мы свяжемся с вами, чтобы уточнить детали ремонта.</p>
+                        <a href="#services" class="btn btn-outline-primary mt-3">Посмотреть услуги</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="mb-1">Заявка на ремонт</h5>
+                        <p class="text-muted small mb-4">Поля со звёздочкой обязательны</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ form.name.id_for_label }}" class="form-label">Имя <span class="text-danger">*</span></label>
+                                    {{ form.name }}
+                                    {% if form.name.errors %}<div class="text-danger small">{{ form.name.errors }}</div>{% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.phone.id_for_label }}" class="form-label">Телефон <span class="text-danger">*</span></label>
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}<div class="text-danger small">{{ form.phone.errors }}</div>{% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.device_type.id_for_label }}" class="form-label">Устройство <span class="text-danger">*</span></label>
+                                    {{ form.device_type }}
+                                    {% if form.device_type.errors %}<div class="text-danger small">{{ form.device_type.errors }}</div>{% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.service.id_for_label }}" class="form-label">Услуга <span class="text-danger">*</span></label>
+                                    {{ form.service }}
+                                    {% if form.service.errors %}<div class="text-danger small">{{ form.service.errors }}</div>{% endif %}
+                                </div>
+                                <div class="col-12">
+                                    <label for="{{ form.problem_description.id_for_label }}" class="form-label">Опишите проблему <span class="text-danger">*</span></label>
+                                    {{ form.problem_description }}
+                                    {% if form.problem_description.errors %}<div class="text-danger small">{{ form.problem_description.errors }}</div>{% endif %}
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        {{ form.is_pickup }}
+                                        <label class="form-check-label" for="{{ form.is_pickup.id_for_label }}">
+                                            Нужен выезд мастера
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12" id="address-field" hidden>
+                                    <label for="{{ form.address.id_for_label }}" class="form-label">Адрес для выезда</label>
+                                    {{ form.address }}
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                                        <i class="bi bi-send"></i> Отправить заявку
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const pickup = document.querySelector("#id_is_pickup");
+    const addressField = document.querySelector("#address-field");
+    const updateAddress = () => {
+        if (!pickup || !addressField) return;
+        addressField.hidden = !pickup.checked;
+    };
+    pickup?.addEventListener("change", updateAddress);
+    updateAddress();
+});
+</script>
+{% endblock %}

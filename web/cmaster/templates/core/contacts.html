@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Контакты — CompMaster{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="bg-primary text-white py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3">Контакты</h1>
+                <p class="lead">Свяжитесь с нами удобным для вас способом</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Info -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-telephone-fill text-primary" style="font-size: 2rem;"></i>
+                        </div>
+                        <h5>Телефон</h5>
+                        <p class="text-muted mb-2">Звоните нам в рабочее время</p>
+                        <a href="tel:+79001234567" class="text-decoration-none fw-bold text-primary">+7 (900) 123-45-67</a>
+                        <br>
+                        <a href="tel:+79009876543" class="text-decoration-none fw-bold text-primary">+7 (900) 987-65-43</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-envelope-fill text-primary" style="font-size: 2rem;"></i>
+                        </div>
+                        <h5>Email</h5>
+                        <p class="text-muted mb-2">Пишите в любое время</p>
+                        <a href="mailto:info@compmaster.local" class="text-decoration-none fw-bold text-primary">info@compmaster.local</a>
+                        <br>
+                        <a href="mailto:support@compmaster.local" class="text-decoration-none fw-bold text-primary">support@compmaster.local</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 text-center">
+                    <div class="card-body p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-geo-alt-fill text-primary" style="font-size: 2rem;"></i>
+                        </div>
+                        <h5>Адрес</h5>
+                        <p class="text-muted mb-2">Приходите к нам</p>
+                        <strong>г. Москва, ул. Примерная, д. 1</strong>
+                        <br>
+                        <small class="text-muted">Метро: Примерная, 5 минут пешком</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule -->
+        <div class="card border-0 shadow-sm mb-5">
+            <div class="card-body p-4">
+                <h4 class="mb-4"><i class="bi bi-clock text-primary"></i> Режим работы</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold">Понедельник — Пятница:</td>
+                                    <td>9:00 — 20:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Суббота:</td>
+                                    <td>10:00 — 18:00</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Воскресенье:</td>
+                                    <td>10:00 — 18:00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-success mb-0">
+                            <i class="bi bi-check-circle-fill"></i> <strong>Выезд мастера — бесплатно!</strong>
+                            <br>
+                            <small>Мастер приедет к вам в удобное время для диагностики и ремонта на месте.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map placeholder -->
+        <div class="card border-0 shadow-sm mb-5">
+            <div class="card-body p-0">
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <div class="text-center text-muted">
+                        <i class="bi bi-map" style="font-size: 4rem;"></i>
+                        <p class="mt-3 mb-0">Здесь будет карта</p>
+                        <small>г. Москва, ул. Примерная, д. 1</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-5">
+                        <h4 class="mb-2">Напишите нам</h4>
+                        <p class="text-muted mb-4">Заполните форму, и мы свяжемся с вами в течение 30 минут</p>
+                        
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="contact-name" class="form-label">Ваше имя <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="contact-name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="contact-phone" class="form-label">Телефон <span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="contact-phone" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="contact-email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="contact-email">
+                                </div>
+                                <div class="col-12">
+                                    <label for="contact-subject" class="form-label">Тема обращения</label>
+                                    <select class="form-select" id="contact-subject">
+                                        <option value="">Выберите тему</option>
+                                        <option value="repair">Ремонт техники</option>
+                                        <option value="consultation">Консультация</option>
+                                        <option value="cooperation">Сотрудничество</option>
+                                        <option value="other">Другое</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="contact-message" class="form-label">Сообщение <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="contact-message" rows="5" required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                                        <i class="bi bi-send"></i> Отправить сообщение
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

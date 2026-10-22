@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Портфолио — CompMaster{% endblock %}
+
+{% block content %}
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold">Наши работы</h1>
+            <p class="text-muted">Примеры выполненных ремонтов и восстановлений</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for work in works %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    {% if work.image_after %}
+                    <img src="{{ work.image_after }}" class="card-img-top" alt="{{ work.title }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                        <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ work.title }}</h5>
+                        <p class="card-text text-muted">{{ work.description|truncatewords:20|default:"Выполнили диагностику и восстановили стабильную работу устройства." }}</p>
+                        {% if work.device_type %}
+                        <span class="badge bg-secondary mb-2">{{ work.device_type.name }}</span>
+                        {% endif %}
+                        {% if work.service %}
+                        <span class="badge bg-primary mb-2">{{ work.service.name }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                        <a href="#contact" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-chat-dots"></i> Заказать такой же ремонт
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle"></i> Примеры работ скоро появятся.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Услуги — CompMaster{% endblock %}
+
+{% block content %}
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold">Наши услуги</h1>
+            <p class="text-muted">Полный спектр услуг по ремонту и обслуживанию техники</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                                <i class="bi bi-tools text-primary fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0">{{ service.name }}</h5>
+                                <small class="text-muted">Артикул: {{ service.id }}</small>
+                            </div>
+                        </div>
+                        <p class="card-text text-muted">{{ service.description|default:"Высококачественный ремонт с гарантией." }}</p>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted d-block">Стоимость от</small>
+                                <strong class="fs-4 text-primary">{{ service.price_from|default:"0" }} ₽</strong>
+                            </div>
+                            <a href="#contact" class="btn btn-outline-primary btn-sm">
+                                Заказать <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle"></i> Список услуг скоро появится.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Device Types -->
+{% if device_types %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Типы устройств</h2>
+        <div class="row g-3">
+            {% for device in device_types %}
+            <div class="col-md-3 col-6">
+                <div class="card border-0 text-center p-3 shadow-sm">
+                    {% with device.name|lower as dev_name %}
+                    <i class="bi {% if 'notebook' in dev_name or 'laptop' in dev_name %}bi-laptop{% elif 'phone' in dev_name %}bi-phone{% elif 'tablet' in dev_name %}bi-tablet{% else %}bi-pc-display{% endif %} text-primary fs-1"></i>
+                    {% endwith %}
+                    <h6 class="mt-2 mb-0">{{ device.name }}</h6>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Калькулятор — CompMaster{% endblock %}
+
+{% block content %}
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold">Калькулятор стоимости</h1>
+            <p class="text-muted">Рассчитайте примерную стоимость ремонта</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-5">
+                        <h5 class="mb-4">Выберите услугу</h5>
+                        
+                        <div class="mb-4">
+                            <label for="calculator-category" class="form-label fw-bold">Что нужно сделать?</label>
+                            <select id="calculator-category" class="form-select form-select-lg">
+                                <option value="">— Выберите категорию —</option>
+                                {% for category in categories %}
+                                <option value="{{ category.pk }}" data-price="{{ category.base_price|default:0 }}">
+                                    {{ category.name }} (от {{ category.base_price|default:"0" }} ₽)
+                                </option>
+                                {% empty %}
+                                <option value="">Категории скоро появятся</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Дополнительные опции</label>
+                            <div id="calculator-options" class="border rounded p-3">
+                                <p class="text-muted small mb-0">Выберите категорию для отображения опций</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-primary bg-opacity-10 rounded">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fs-5 fw-bold">Предварительная стоимость:</span>
+                                <strong id="calculator-total" class="fs-3 text-primary">—</strong>
+                            </div>
+                            <small class="text-muted">* Расчёт ориентировочный. Точную цену мастер назовёт после диагностики.</small>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <a href="#contact" class="btn btn-primary btn-lg me-2">
+                                <i class="bi bi-send"></i> Отправить заявку
+                            </a>
+                            <a href="tel:+79001234567" class="btn btn-outline-primary btn-lg">
+                                <i class="bi bi-telephone"></i> Позвонить
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const categorySelect = document.querySelector("#calculator-category");
+    const total = document.querySelector("#calculator-total");
+    const optionsContainer = document.querySelector("#calculator-options");
+    const formatPrice = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 });
+
+    const updateCalculator = () => {
+        if (!categorySelect || !total) return;
+        const selected = categorySelect.selectedOptions[0];
+        if (!selected || !selected.dataset.price) {
+            total.textContent = "—";
+            return;
+        }
+        let price = Number(selected.dataset.price);
+        const checkboxes = optionsContainer.querySelectorAll('input[type="checkbox"]:checked');
+        checkboxes.forEach(cb => { price += Number(cb.dataset.price || 0); });
+        total.textContent = formatPrice.format(price) + " ₽";
+    };
+
+    categorySelect?.addEventListener("change", updateCalculator);
+    optionsContainer?.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener("change", updateCalculator);
+    });
+    updateCalculator();
+});
+</script>
+{% endblock %}

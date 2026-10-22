@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Блог — CompMaster{% endblock %}
+
+{% block content %}
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold">Блог</h1>
+            <p class="text-muted">Полезные статьи и советы по ремонту техники</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for post in posts %}
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="badge bg-primary me-2">{{ post.category }}</span>
+                            <small class="text-muted">
+                                <i class="bi bi-calendar"></i> {% if post.published_at %}{{ post.published_at|date:"d.m.Y" }}{% else %}Скоро{% endif %}
+                            </small>
+                        </div>
+                        <h3 class="card-title">
+                            <a href="{% url 'blog_detail' post.id %}" class="text-decoration-none text-dark">
+                                {{ post.title }}
+                            </a>
+                        </h3>
+                        <p class="card-text text-muted">{{ post.excerpt|default:post.content|truncatewords:30 }}</p>
+                        <a href="{% url 'blog_detail' post.id %}" class="btn btn-outline-primary btn-sm">
+                            Читать далее <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle"></i> Статьи скоро появятся.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

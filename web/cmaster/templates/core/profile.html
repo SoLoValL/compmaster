@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Профиль — CompMaster{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="display-6 fw-bold mb-4">
+                    <i class="bi bi-person-circle text-primary"></i> Мой профиль
+                </h1>
+
+                {% if user_data %}
+                <div class="card border-0 shadow mb-4">
+                    <div class="card-body p-4">
+                        <h5>Личные данные</h5>
+                        <hr>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="text-muted small">Имя пользователя</label>
+                                <p class="fw-bold">{{ user_data.username }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted small">Email</label>
+                                <p class="fw-bold">{{ user_data.email }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted small">Телефон</label>
+                                <p class="fw-bold">{{ user_data.phone|default:"Не указан" }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted small">Статус мастера</label>
+                                <p class="fw-bold">
+                                    {% if user_data.is_master %}
+                                    <span class="badge bg-success">Мастер</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">Клиент</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4">
+                        <h5>История заявок</h5>
+                        <p class="text-muted">Здесь будет история ваших заявок</p>
+                        <a href="{% url 'home' %}" class="btn btn-primary">
+                            <i class="bi bi-arrow-left"></i> Вернуться на главную
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-warning text-center">
+                    <i class="bi bi-exclamation-triangle"></i> Не удалось загрузить данные профиля
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

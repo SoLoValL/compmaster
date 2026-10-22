@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Заказать ремонт — CompMaster{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="bg-primary text-white py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3">Заказать ремонт</h1>
+                <p class="lead">Заполните форму, и мы свяжемся с вами в течение 15 минут</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Order Form -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                {% if request_sent %}
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5 text-center">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                        <h3 class="mt-4 mb-3">Заявка отправлена!</h3>
+                        <p class="text-muted mb-4">Спасибо за обращение! Наш менеджер свяжется с вами в ближайшее время для уточнения деталей.</p>
+                        <a href="{% url 'home' %}" class="btn btn-primary">
+                            <i class="bi bi-house"></i> На главную
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="card border-0 shadow">
+                    <div class="card-body p-5">
+                        <h4 class="mb-1">Форма заявки на ремонт</h4>
+                        <p class="text-muted mb-4">Поля, отмеченные <span class="text-danger">*</span>, обязательны для заполнения</p>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <!-- Step 1: Contact Info -->
+                            <div class="mb-4">
+                                <h6 class="border-bottom pb-2 mb-3">
+                                    <span class="badge bg-primary me-2">1</span>
+                                    Контактная информация
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="{{ form.name.id_for_label }}" class="form-label">Имя <span class="text-danger">*</span></label>
+                                        {{ form.name }}
+                                        {% if form.name.errors %}<div class="text-danger small mt-1">{{ form.name.errors }}</div>{% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="{{ form.phone.id_for_label }}" class="form-label">Телефон <span class="text-danger">*</span></label>
+                                        {{ form.phone }}
+                                        {% if form.phone.errors %}<div class="text-danger small mt-1">{{ form.phone.errors }}</div>{% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="{{ form.email.id_for_label|default:'id_email' }}" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="id_email" placeholder="example@mail.ru">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Удобное время для звонка</label>
+                                        <select class="form-select">
+                                            <option value="">Любое время</option>
+                                            <option value="morning">Утро (9:00 — 12:00)</option>
+                                            <option value="day">День (12:00 — 17:00)</option>
+                                            <option value="evening">Вечер (17:00 — 20:00)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Device Info -->
+                            <div class="mb-4">
+                                <h6 class="border-bottom pb-2 mb-3">
+                                    <span class="badge bg-primary me-2">2</span>
+                                    Информация об устройстве
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="{{ form.device_type.id_for_label }}" class="form-label">Тип устройства <span class="text-danger">*</span></label>
+                                        {{ form.device_type }}
+                                        {% if form.device_type.errors %}<div class="text-danger small mt-1">{{ form.device_type.errors }}</div>{% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="device_model" class="form-label">Модель/Модификация</label>
+                                        <input type="text" class="form-control" id="device_model" placeholder="Например: ASUS VivoBook 15">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="device_serial" class="form-label">Серийный номер</label>
+                                        <input type="text" class="form-control" id="device_serial" placeholder="Обычно на дне устройства">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="device_age" class="form-label">Возраст устройства</label>
+                                        <select class="form-select" id="device_age">
+                                            <option value="">Не знаю</option>
+                                            <option value="less_1">Менее 1 года</option>
+                                            <option value="1_2">1-2 года</option>
+                                            <option value="2_5">2-5 лет</option>
+                                            <option value="more_5">Более 5 лет</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Problem Description -->
+                            <div class="mb-4">
+                                <h6 class="border-bottom pb-2 mb-3">
+                                    <span class="badge bg-primary me-2">3</span>
+                                    Описание проблемы
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="{{ form.service.id_for_label }}" class="form-label">Категория проблемы <span class="text-danger">*</span></label>
+                                        {{ form.service }}
+                                        {% if form.service.errors %}<div class="text-danger small mt-1">{{ form.service.errors }}</div>{% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="{{ form.problem_description.id_for_label }}" class="form-label">Подробное описание проблемы <span class="text-danger">*</span></label>
+                                        {{ form.problem_description }}
+                                        <div class="form-text">Опишите, что случилось, когда появилась проблема, что пробовали делать</div>
+                                        {% if form.problem_description.errors %}<div class="text-danger small mt-1">{{ form.problem_description.errors }}</div>{% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Приоритет ремонта</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="priority" id="priority_normal" value="normal" checked>
+                                            <label class="form-check-label" for="priority_normal">
+                                                Обычный — в порядке очереди
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="priority" id="priority_urgent" value="urgent">
+                                            <label class="form-check-label" for="priority_urgent">
+                                                Срочный — нужен экспресс-ремонт (+50% к стоимости)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Service Type -->
+                            <div class="mb-4">
+                                <h6 class="border-bottom pb-2 mb-3">
+                                    <span class="badge bg-primary me-2">4</span>
+                                    Способ обслуживания
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-check p-3 border rounded h-100">
+                                            <input class="form-check-input" type="radio" name="service_type" id="service_center" value="center" checked>
+                                            <label class="form-check-label w-100" for="service_center">
+                                                <strong>Привезти в сервисный центр</strong>
+                                                <br>
+                                                <small class="text-muted">Бесплатно, г. Москва, ул. Примерная, д. 1</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check p-3 border rounded h-100">
+                                            <input class="form-check-input" type="radio" name="service_type" id="master_home" value="home">
+                                            <label class="form-check-label w-100" for="master_home">
+                                                <strong>Выезд мастера на дом</strong>
+                                                <br>
+                                                <small class="text-muted">Бесплатный выезд при заказе ремонта</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3" id="address-field" hidden>
+                                    <label for="{{ form.address.id_for_label }}" class="form-label">Адрес выезда <span class="text-danger">*</span></label>
+                                    {{ form.address }}
+                                </div>
+                            </div>
+
+                            <!-- Additional Info -->
+                            <div class="mb-4">
+                                <h6 class="border-bottom pb-2 mb-3">
+                                    <span class="badge bg-primary me-2">5</span>
+                                    Дополнительная информация
+                                </h6>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label class="form-check">
+                                            {{ form.is_pickup }}
+                                            <span class="ms-2">Нужна помощь с переноской устройства в сервисный центр</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Есть ли у вас гарантия на устройство?</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="warranty" id="warranty_yes" value="yes">
+                                            <label class="form-check-label" for="warranty_yes">Да, действует</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="warranty" id="warranty_no" value="no">
+                                            <label class="form-check-label" for="warranty_no">Нет, не действует</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="warranty" id="warranty_unknown" value="unknown" checked>
+                                            <label class="form-check-label" for="warranty_unknown">Не знаю</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="additional_info" class="form-label">Дополнительные комментарии</label>
+                                        <textarea class="form-control" id="additional_info" rows="3" placeholder="Любая дополнительная информация, которая может помочь мастеру"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-send"></i> Отправить заявку
+                                </button>
+                                <p class="text-center text-muted small mb-0">
+                                    Нажимая кнопку, вы соглашаетесь с <a href="#">политикой конфиденциальности</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Как мы работаем</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3 text-center">
+                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm" style="width: 80px; height: 80px;">
+                    <span class="display-6 fw-bold text-primary">1</span>
+                </div>
+                <h5>Заявка</h5>
+                <p class="text-muted small">Вы оставляете заявку на сайте или звоните нам</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm" style="width: 80px; height: 80px;">
+                    <span class="display-6 fw-bold text-primary">2</span>
+                </div>
+                <h5>Диагностика</h5>
+                <p class="text-muted small">Проводим бесплатную диагностику и согласовываем стоимость</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm" style="width: 80px; height: 80px;">
+                    <span class="display-6 fw-bold text-primary">3</span>
+                </div>
+                <h5>Ремонт</h5>
+                <p class="text-muted small">Выполняем ремонт в согласованные сроки</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm" style="width: 80px; height: 80px;">
+                    <span class="display-6 fw-bold text-primary">4</span>
+                </div>
+                <h5>Выдача</h5>
+                <p class="text-muted small">Вы получаете исправное устройство с гарантией</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const masterHomeRadio = document.querySelector("#master_home");
+    const addressField = document.querySelector("#address-field");
+    
+    const updateAddress = () => {
+        if (!masterHomeRadio || !addressField) return;
+        addressField.hidden = masterHomeRadio.checked !== true;
+    };
+    
+    masterHomeRadio?.addEventListener("change", updateAddress);
+    updateAddress();
+});
+</script>
+{% endblock %}

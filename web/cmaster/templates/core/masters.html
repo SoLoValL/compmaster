@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Мастера — CompMaster{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="bg-primary text-white py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3">Наши мастера</h1>
+                <p class="lead">Команда профессионалов с многолетним опытом</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Masters List -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for master in masters %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                                <i class="bi bi-person-fill text-primary" style="font-size: 2rem;"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="card-title mb-1">{{ master.name }}</h5>
+                                <span class="badge bg-primary">{{ master.specialization }}</span>
+                            </div>
+                        </div>
+                        <p class="card-text text-muted">{{ master.description|default:"Опытный мастер с многолетним стажем работы." }}</p>
+                        <div class="mb-3">
+                            <small class="text-muted">
+                                <i class="bi bi-briefcase"></i> Опыт: {{ master.experience|default:"5" }} лет
+                            </small>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted">
+                                <i class="bi bi-tools"></i> Специализация:
+                                {% if master.skills %}
+                                    {% for skill in master.skills %}
+                                    <span class="badge bg-light text-dark me-1">{{ skill }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="badge bg-light text-dark">Ремонт ПК</span>
+                                    <span class="badge bg-light text-dark">Ремонт ноутбуков</span>
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <div>
+                                <small class="text-muted">Рейтинг:</small>
+                                <div class="text-warning">
+                                    {% with "12345" as stars %}
+                                    {% for i in stars %}
+                                        {% if forloop.counter <= master.rating|default:5 %}
+                                            <i class="bi bi-star-fill"></i>
+                                        {% else %}
+                                            <i class="bi bi-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% endwith %}
+                                </div>
+                            </div>
+                            <a href="{% url 'home' %}#contact" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-calendar-check"></i> Записаться
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle"></i> Информация о мастерах скоро появится.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Our Masters -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Почему наши мастера?</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="text-center">
+                    <i class="bi bi-patch-check-fill text-primary" style="font-size: 3rem;"></i>
+                    <h6 class="mt-3">Сертифицированы</h6>
+                    <p class="text-muted small">Имеют сертификаты производителей</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="text-center">
+                    <i class="bi bi-book-fill text-primary" style="font-size: 3rem;"></i>
+                    <h6 class="mt-3">Обучаются</h6>
+                    <p class="text-muted small">Регулярно повышают квалификацию</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="text-center">
+                    <i class="bi bi-star-fill text-primary" style="font-size: 3rem;"></i>
+                    <h6 class="mt-3">Опыт 5+ лет</h6>
+                    <p class="text-muted small">Средний стаж мастера</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="text-center">
+                    <i class="bi bi-emoji-smile-fill text-primary" style="font-size: 3rem;"></i>
+                    <h6 class="mt-3">98% довольных</h6>
+                    <p class="text-muted small">Положительных отзывов</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5">
+    <div class="container">
+        <div class="card bg-primary text-white border-0 shadow-lg">
+            <div class="card-body p-5 text-center">
+                <h3 class="mb-3">Нужна консультация мастера?</h3>
+                <p class="lead mb-4">Позвоните или оставьте заявку — подберём подходящего специалиста</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="tel:+79001234567" class="btn btn-light btn-lg">
+                        <i class="bi bi-telephone"></i> Позвонить
+                    </a>
+                    <a href="{% url 'home' %}#contact" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-envelope"></i> Оставить заявку
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
